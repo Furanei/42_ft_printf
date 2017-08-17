@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/12 21:10:16 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/02/24 10:07:06 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/08/17 18:51:10 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,6 @@ char				**ft_double_memalloc(size_t nstr, size_t size);
 char				*ft_strcut(size_t option, char *s, char c, size_t with);
 char				*ft_strnjoinfree(char *s1, char *s2, size_t n, char del);
 char				*ft_itoa_base(long long value, int base);
+void				ft_error(char const *s);
 
 #endif

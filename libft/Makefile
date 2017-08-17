@@ -6,7 +6,7 @@
 #    By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/07 18:50:11 by mbriffau          #+#    #+#              #
-#    Updated: 2017/02/24 10:07:34 by mbriffau         ###   ########.fr        #
+#    Updated: 2017/08/01 15:54:49 by mbriffau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,7 +92,8 @@ FT_FILES =		ft_putchar \
 				ft_strlen_c \
 				ft_strcut \
 				ft_strnjoinfree \
-				ft_itoa_base
+				ft_itoa_base \
+				ft_error
 
 FT_COMPILED =	$(addsuffix .o,$(FT_FILES))
 

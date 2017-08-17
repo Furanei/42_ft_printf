@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_char.c                                       :+:      :+:    :+:   */
+/*   init_conv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/24 07:02:27 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/02/24 09:45:41 by mbriffau         ###   ########.fr       */
+/*   Created: 2017/08/01 23:38:21 by mbriffau          #+#    #+#             */
+/*   Updated: 2017/08/11 13:25:11 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+# include "includes/ft_printf.h"
 
-// int		print_char(char c)
-// {
-
-// 	write
-// }
-
-void		pf_putstr(char *s)
+t_conv				*init_conv(void)
 {
-	int n = 0;
-	printf("%d - ", n = ft_strlen(s));
-	write(1, s, ft_strlen(s));
+	t_conv		*conv;
+	
+	if (!(conv = malloc(sizeof(t_conv))))
+		ft_error("error_malloc_init_conv");
+	ft_bzero(conv, sizeof(t_conv));
+	conv->modif = '0';
+	conv->flag = 0;
+	return (conv);
 }

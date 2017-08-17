@@ -6,61 +6,65 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 22:44:17 by mbriffau          #+#    #+#             */
-/*   Updated: 2016/12/07 19:03:47 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/05/20 01:35:30 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_cnt_parts(const char *s, char c)
+static int	ft_word_length(char const *s, char c, unsigned int i)
 {
-	int i;
-	int nw;
+	unsigned int len;
 
-	i = 0;
-	nw = 0;
-	while (s[i++])
-		if ((s[i - 1] == c || nw == 0) && s[i] != c && s[i] != '\0')
-			nw++;
-	return (nw);
+	len = 0;
+	while (s[i] && s[i] != c)
+	{
+		++len;
+		++i;
+	}
+	return (len);
 }
 
-static int	ft_wlen(const char *s, char c)
+static int	ft_array_length(char const *s, char c)
 {
-	int		l;
+	unsigned int len;
 
-	l = 0;
-	while (*s != c && *s != '\0')
+	len = 0;
+	while (*s)
 	{
-		l++;
-		s++;
+		if (*s == c)
+			++s;
+		else
+		{
+			++len;
+			while (*s && *s != c)
+				++s;
+		}
 	}
-	return (l);
+	return (len);
 }
 
 char		**ft_strsplit(char const *s, char c)
 {
-	char	**a;
-	int		nbw;
-	int		i;
+	char			**ar;
+	unsigned int	i;
+	unsigned int	j;
 
 	i = 0;
-	if (s == NULL)
+	j = 0;
+	if (!(ar = (char **)malloc(sizeof(char *) * (ft_array_length(s, c) + 1))))
 		return (NULL);
-	nbw = ft_cnt_parts((const char *)s, c);
-	a = (char **)malloc(sizeof(*a) * (ft_cnt_parts((const char *)s, c) + 1));
-	if (a == NULL)
-		return (NULL);
-	while (nbw--)
+	while (s[i])
 	{
-		while (*s == c && *s != '\0')
-			s++;
-		a[i] = ft_strsub((const char *)s, 0, ft_wlen((const char *)s, c));
-		if (a[i] == NULL)
-			return (NULL);
-		s = s + ft_wlen(s, c);
-		i++;
+		if (s[i] != c)
+		{
+			if (!(ar[j++] = ft_strsub(s, i, ft_word_length(s, c, i))))
+				return (NULL);
+			i += ft_word_length(s, c, i);
+		}
+		else
+			i++;
 	}
-	a[i] = NULL;
-	return (a);
+	ar[j] = NULL;
+	return (ar);
 }
