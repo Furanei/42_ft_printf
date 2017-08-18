@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 18:34:23 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/08/17 18:51:29 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/08/18 14:56:03 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void		ft_error_pf(char *file, char *func, int line, char *s);
 int			ft_printf(char *format, ...);
 t_printf	*parse_conversion(t_printf *pf);
 t_conv		*init_conv(void);
-void		print_wint(wint_t wint);
+t_printf	*print_wint(t_printf *pf, wint_t wint);
 void		print_p(char *str);
 int			option(int n, char c, t_conv *conv, char *s);
 t_conv		*option_print(int print_size, char c, t_conv *conv, char *s);

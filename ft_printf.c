@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 15:41:18 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/08/17 18:22:24 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/08/18 14:54:48 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,12 @@ int		ft_printf(char *format, ...)
 		}
 		if (pf.format[pf.i])
 			print_until(&pf, pf.format, pf.i, '%');
-		//pf.format[pf.i] != 0 ? print_until(&pf, pf.format, pf.i, '%') : 0;
 	}
-	pf.buffer ? print_buffer(pf.buffer, pf.i_buf) : 0;
+	pf.buffer &&  pf.i_buf? print_buffer(pf.buffer, pf.i_buf) : 0;
 	va_end(pf.ap);
 	return (0);
 }
 
-/*
- * Quand la precision est trop grande, printf comble avec des 0
- * Le flag 0 est ignore lorsque le flag - est present 
- * *
- */
 t_printf	*buffer(t_printf *pf, char *saved, int len)
 {
 	int i;

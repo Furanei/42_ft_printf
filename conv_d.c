@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   conv_d.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achambon <achambon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 15:10:00 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/08/15 19:28:07 by achambon         ###   ########.fr       */
+/*   Updated: 2017/08/18 16:43:02 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "includes/ft_printf.h"
-/*
- *gere conv_i aussi
 
- NE GERE PAS LA PRECISON => x.xx = FLOAT
- */
 static t_conv	option_d(t_printf *pf, int n, char c, t_conv *conv, char *s)
 {
 	int		i;
@@ -27,58 +23,25 @@ static t_conv	option_d(t_printf *pf, int n, char c, t_conv *conv, char *s)
 	tab[n] = '\0';
 	if (!n)
 		return(*conv);
+	while (i < n)
+		tab[i++] = c;
 	if (conv->before == 4)
 	{
-		while (i < n)
-			tab[i++] = c;
-	//	write(1, tab, n);
 		buffer(&*pf, tab, n);
 		buffer(&*pf, "+", 1);
 		buffer(&*pf, s, len);
-	//	ft_putchar('+');
-	//	ft_putstr(s);
-		return(*conv);
+				return(*conv);
 	}
 	if (!(conv->before == 3) && conv->before && s)
-	{
-		if(conv->ox == 1)
-			buffer(&*pf, "0x", 2);
-			//ft_putstr("0x");
 		buffer(&*pf, s, len);
-	//	ft_putstr(s);
-	}
-	if (conv->precision_set == 2)
-	{
-		buffer(&*pf, "0x", 2);
-		//ft_putstr("0x");
-		conv->ox = 0;
-	}
 	if(!(conv->flag & MINUS) || (conv->flag & MINUS && conv->min_width > conv->precision) || conv->before == 3)
-	{
-		while (i < n)
-			tab[i++] = c;
 		buffer(&*pf, tab, n);
-	//	write(1, tab, n);
-	}
-	if(((conv->flag & PLUS) && !(conv->flag & ZERO) && !(conv->flag & MINUS) && (conv->flag & (TYPE_D + TYPE_U + TYPE_O)) && !(conv->before == 3) && !conv->flag & MODIFIER_HH))
+	if((conv->flag & PLUS) && !(conv->flag & (ZERO + MINUS + MODIFIER_HH)) && (conv->flag & 0x26000000) && !(conv->before == 3))
 		buffer(&*pf, "+", 1);
-	//	ft_putchar('+');
 	if ((conv->before == 0 && s) || conv->before == 3)
-	{
-		if(conv->ox == 1)
-			buffer(&*pf, "0x", 2);
-		//	ft_putstr("0x");
 		buffer(&*pf, &*s, len);
-	//	ft_putstr(s);
-	}
 	if((conv->flag & MINUS && !(conv->min_width > conv->precision)) && !(conv->before == 3))
-	{
-		while (i < n)
-			tab[i++] = c;
 		buffer(&*pf, tab, n);
-	//	write(1, tab, n);
-	}
-	
 	return (*conv);
 }
 
@@ -90,10 +53,8 @@ int	conv_d_minus(t_printf *pf, t_conv *conv, int len, char *str)
 	if (conv->min_width && !conv->precision)
 	{
 		if(conv->min_width < len)
-		{
 			return(0);
-		}
-			else if(conv->min_width > len)
+		else if(conv->min_width > len)
 		{
 			if(conv->flag & SPACE && !(conv->flag & PLUS) && !(conv->flag & MODIFIER_HH))
 			{
@@ -101,7 +62,7 @@ int	conv_d_minus(t_printf *pf, t_conv *conv, int len, char *str)
 			}
 			if(conv->flag & PLUS && !(conv->flag & ZERO) && !(conv->flag & SPACE) && !(conv->flag & MODIFIER_HH))
 			{
-				minwidth_decr_add_char_2_buf(&pf, '+', &*conv);
+				minwidth_decr_add_char_2_buf(&*pf, '+', &*conv);
 				conv->before = 1;
 				option_d(&*pf, conv->min_width - len, ' ', conv, str);
 				return(pf->i_buf);
@@ -114,7 +75,6 @@ int	conv_d_minus(t_printf *pf, t_conv *conv, int len, char *str)
 			{
 				conv->before = 1;
 				buffer(&*pf, "+", 1);
-				//ft_putchar('+');
 				option_d(&*pf, conv->min_width - 1 - len, ' ', conv, str);
 				return(pf->i_buf);
 			}
@@ -140,10 +100,8 @@ int	conv_d_minus(t_printf *pf, t_conv *conv, int len, char *str)
 		conv->before = 3;
 		if (conv->flag & SPACE && !(conv->flag & PLUS) && !(conv->flag & MODIFIER_HH))
 			buffer(&*pf, " ", 1);
-			//ft_putchar(' ');
 		if (conv->flag & PLUS && !(conv->flag & MODIFIER_HH))
 			buffer(&*pf, "+", 1);
-			//ft_putchar('+');
 		if(str[0] == '-')
 		{
 			special_hhd_reverse_0_n_minus(pf, str, '-');
@@ -158,44 +116,30 @@ int	conv_d_minus(t_printf *pf, t_conv *conv, int len, char *str)
 		{
 			conv->before = 0;
 			if(conv->flag & SPACE && !(conv->flag & PLUS) && !(conv->flag & MODIFIER_HH))
-			{
 				minwidth_decr_add_char_2_buf(&*pf, ' ', conv);
-			}
-				if(conv->flag & PLUS && !(conv->flag & MODIFIER_HH))
-			{
+			if(conv->flag & PLUS && !(conv->flag & MODIFIER_HH))
 				minwidth_decr_add_char_2_buf(&*pf, '+', conv);
-			}
 			if (str[0] == '-')
-			{
 				special_hhd_reverse_0_n_minus(&*pf, str, '-');
-			}
 			option_d(&*pf, conv->precision - len, '0', conv, str);
 			while((conv->min_width-- - conv->precision))
 				buffer(&*pf, " ", 1);
-			//	ft_putchar(' ');
-			return(0);
+						return(0);
 		}
 		if (conv->min_width <= conv->precision)
 		{
 			if(str[0] == '-')
-			{
 				special_hhd_reverse_0_n_minus(&*pf, str, '-');
-			}
 			if(conv->flag & PLUS && !(conv->flag & MODIFIER_HH))
-			{
 				minwidth_decr_add_char_2_buf(&*pf, '+', conv);
-			}
 			if(conv->flag & SPACE && !(conv->flag & PLUS + MODIFIER_HH))
-			{
 				minwidth_decr_add_char_2_buf(&*pf, ' ', conv);
-			}
 			conv->before = 3;
 			option_d(&*pf, conv->precision - len, '0', conv, str);
 			return(0);
 		}
 	}
 	buffer(&*pf, str, len);
-	//ft_putstr(str);
 	return(0);
 }
 int		conv_d_hh_nominus(t_printf *pf, t_conv *conv, char *str, int len)
@@ -207,15 +151,10 @@ int		conv_d_hh_nominus(t_printf *pf, t_conv *conv, char *str, int len)
 		if(conv->min_width < len)
 		{
 			if(conv->flag & PLUS && str[0] != '-')
-			{
 				return(add_char_and_string_2_buf(&*pf, '+', str, len));
-			}
 			if(conv->flag & SPACE && !(conv->flag & ZERO))
-			{
 				return(add_char_and_string_2_buf(&*pf, ' ', str, len));
-			}
 			buffer(&*pf, str, len);
-			//ft_putstr(str);
 			return(0);
 		}
 		if(conv->min_width >= len)
@@ -225,7 +164,6 @@ int		conv_d_hh_nominus(t_printf *pf, t_conv *conv, char *str, int len)
 			else if(str[0] != '-' && conv->flag & PLUS && conv->flag & ZERO && !(conv->flag & MODIFIER_HH))
 			{
 				buffer(&*pf, "+", 1);
-				//ft_putchar('+');
 				option_d(&*pf, conv->min_width - 1 - len, '0', conv, str);
 				return(pf->i_buf);
 			}
@@ -249,10 +187,8 @@ int		conv_d_hh_nominus(t_printf *pf, t_conv *conv, char *str, int len)
 		conv->before = 3;
 		if (conv->flag & SPACE && !(conv->flag & PLUS) && !(conv->flag & MODIFIER_HH))
 			buffer(&*pf, " ", 1);
-	//		ft_putchar(' ');
 		if (conv->flag & PLUS && !(conv->flag & MODIFIER_HH))
 			buffer(&*pf, "+", 1);
-//			ft_putchar('+');
 		if(str[0] == '-')
 		{
 			special_hhd_reverse_0_n_minus(pf, str, '-');
@@ -274,39 +210,31 @@ int		conv_d_hh_nominus(t_printf *pf, t_conv *conv, char *str, int len)
 				conv->min_width--;
 				if(conv->flag & PLUS + ZERO)
 					buffer(&*pf, " ", 1);
-//					ft_putchar(' ');
 			}
 			if(conv->flag & PLUS)
 				conv->min_width--;
 			while((conv->min_width-- - conv->precision))
 				buffer(&*pf, " ", 1);
-		//		ft_putchar(' ');
 			if(conv->flag & PLUS && str[0] != '-')
 			{
 				conv->before = 3;
 				buffer(&*pf, "+", 1);
-			//	ft_putchar('+');
 			}
 			if(str[0] == '-')
-			{
 				special_hhd_reverse_0_n_minus(&*pf, str, '-');
-			}
 			option_d(&*pf, conv->precision - len, '0', conv, str);
 			return(0);
 		}
 		if (conv->min_width <= conv->precision)
 		{
 			if(str[0] == '-')
-			{
 				special_hhd_reverse_0_n_minus(&*pf, str, '-');
-			}
 			conv->before = 3;
 			option_d(&*pf, conv->precision - len, '0', conv, str);
 			return(0);
 		}
 	}
 	buffer(&*pf, str, len);	
-//	ft_putstr(str);
 	return(0);
 }
 
@@ -317,15 +245,14 @@ int		conv_d(t_printf *pf, t_conv *conv)
 	char	*str;
 	int		flag_hh;
 	int		width_temp;
-	conv->flag & MODIFIER_H ? apint = va_arg(pf->ap, short) : apint == 1;
-	conv->flag & MODIFIER_HH ? apint = va_arg(pf->ap, char) : apint == 1;
-	conv->flag & MODIFIER_L ? apint = va_arg(pf->ap, long) : apint == 1;
-	conv->flag & MODIFIER_LL ? apint = va_arg(pf->ap, long long) : apint == 1;
-	conv->flag & MODIFIER_Z ? apint = va_arg(pf->ap, size_t) : apint == 1;
-	conv->flag & MODIFIER_J ? apint = va_arg(pf->ap, uintmax_t) : apint == 1;
-	!(conv->flag & MODIFIER_H) && !(conv->flag & MODIFIER_HH) && !(conv->flag & MODIFIER_L) && !(conv->flag & MODIFIER_LL) && !(conv->flag & MODIFIER_Z) && !(conv->flag & MODIFIER_J) ? apint = va_arg(pf->ap, int) : apint == 1;
-	if(apint == 1)
-		ft_error("error_conv_d\n");
+	apint = (conv->flag & MODIFIER_H ? va_arg(pf->ap, short) : 0);
+	apint = (conv->flag & MODIFIER_HH ? va_arg(pf->ap, char) : 0);
+	apint = (conv->flag & MODIFIER_L ? va_arg(pf->ap, long) : 0);
+	apint = (conv->flag & MODIFIER_LL ? va_arg(pf->ap, long long) : 0);
+	apint = (conv->flag & MODIFIER_Z ? va_arg(pf->ap, size_t) : 0);
+	apint = (conv->flag & MODIFIER_J ? va_arg(pf->ap, uintmax_t) : 0);
+	apint = !(conv->flag & 2016) ? va_arg(pf->ap, int) : 0;
+	!apint ? ft_error_pf(INFO, "error_conv_d\n"): 0;
 	len = ft_strlen(str = ft_itoa(apint));
 	if (!conv->min_width && !conv->precision)
 	{
@@ -354,11 +281,9 @@ int		conv_d(t_printf *pf, t_conv *conv)
 				if (conv->flag & MODIFIER_HH && !(conv->flag & SPACE + ZERO) && conv->flag & PLUS && !(conv->precision))
 				{
 					buffer(&*pf, str, len);
-					//ft_putstr(str);
 					while(width_temp-- - len)
 						buffer(&*pf, " ", 1);
-					//	ft_putchar(' ');
-				}
+									}
 			return (0);
 		}
 		if(conv->min_width < len && !(conv->flag & SPACE) && !(conv->flag & PLUS) && !conv->precision)
@@ -387,7 +312,6 @@ int		conv_d(t_printf *pf, t_conv *conv)
 				return(add_char_and_string_2_buf(&*pf, ' ', str, len));
 			}
 			buffer(&*pf, str, len);
-			//ft_putstr(str);
 			return(0);
 		}
 		if(conv->min_width >= len || width_temp >= len)
@@ -395,16 +319,14 @@ int		conv_d(t_printf *pf, t_conv *conv)
 			if(conv->flag & SPACE && !(conv->flag & PLUS))
 			{
 				minwidth_decr_add_char_2_buf(&*pf, ' ', &*conv);
-			//	ft_putchar(' ');
-			//	conv->min_width--;
+						//	conv->min_width--;
 			}
 			if(conv->flag & PLUS && !(conv->flag & ZERO + MODIFIER_HH))
 				conv->min_width--;
 			else if(conv->flag & PLUS && conv->flag & ZERO && !(conv->flag & MODIFIER_HH))
 			{
 				buffer(&*pf, "+", 1);
-			//	ft_putchar('+');
-				option_d(&*pf, conv->min_width - 1 - len, '0', &*conv, str);
+							option_d(&*pf, conv->min_width - 1 - len, '0', &*conv, str);
 				return(pf->i_buf);
 			}
 			else if(conv->flag & ZERO)
@@ -421,9 +343,7 @@ int		conv_d(t_printf *pf, t_conv *conv)
 			{
 				while(conv->min_width-- - len)
 					buffer(&*pf, " ", 1);
-					//ft_putchar(' ');
 				buffer(&*pf, str, len);
-				//ft_putstr(str);
 				return(0);
 			}
 			if(conv->flag & PLUS && !(conv->flag & ZERO) && !(conv->flag & SPACE))
@@ -442,10 +362,8 @@ int		conv_d(t_printf *pf, t_conv *conv)
 		conv->before = 3;
 		if (conv->flag & SPACE && !(conv->flag & PLUS) && !(conv->flag & MODIFIER_HH))
 			buffer(&*pf, " ", 1);
-			//ft_putchar(' ');
 		if (conv->flag & PLUS && !(conv->flag & MODIFIER_HH))
 			buffer(&*pf, "+", 1);
-			//ft_putchar('+');
 		if(!(conv->flag & MODIFIER_HH))
 		{
 			option_d(&*pf, conv->precision - len, '0', &*conv, str);
@@ -470,19 +388,17 @@ int		conv_d(t_printf *pf, t_conv *conv)
 				conv->min_width--;
 			while((conv->min_width-- - conv->precision))
 				buffer(&*pf, " ", 1);
-				//ft_putchar(' ');
 			if(conv->flag & PLUS)
 			{
 				conv->before = 3;
 				buffer(&*pf, "+", 1);
-				//ft_putchar('+');
 			}
 			option_d(&*pf, conv->precision - len, '0', &*conv, str);
 			return(0);
 		}
 		if (conv->min_width <= conv->precision)
 		{
-			conv->flag & PLUS ? buffer(&*pf, " ", 1) : 0;
+			conv->flag & PLUS ? buffer(&*pf, "+", 1) : 0;
 			conv->flag & PLUS ? conv->min_width-- : 0; 
 			if(conv->flag & SPACE && !(conv->flag & PLUS))
 			{
@@ -494,6 +410,5 @@ int		conv_d(t_printf *pf, t_conv *conv)
 		}
 	}
 	buffer(&*pf, str, len);	
-	//ft_putstr(str);
 	return(0);
 }

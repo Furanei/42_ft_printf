@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 16:07:37 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/08/17 18:17:17 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/08/18 14:55:54 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,19 @@ static int		count_wchars(t_conv *conv, wchar_t *wstr, int size)
 	size = i;
 	return (total);
 }
-static void	print_wstring(t_conv *conv, wchar_t *wstr, int size)
+static void	print_wstring(t_printf *pf, t_conv *conv, wchar_t *wstr, int size)
 {
 	int i = 0;
 
 	count_wchars(conv, wstr, size);
 	while (i < size)
 	{
-		print_wint(wstr[i]);
+		print_wint(&*pf, wstr[i]);
 		i++;		
 	}
 }
 
-static t_conv	*option_s(t_printf *pf, int print_size, char c, t_conv *conv, char *s)
+static t_conv	*option_s(t_printf *pf, int print_size, char c, t_conv *conv, char *s)//(char *)s useless
 {
 	int			i;
 	char		tab[(conv->min_width - print_size) + 1];
@@ -73,22 +73,11 @@ static t_conv	*option_s(t_printf *pf, int print_size, char c, t_conv *conv, char
 	tab[size] = '\0';
 	if (!size)
 		return (conv);
-	if (size)
+	else
 	{
-		if(!(conv->flag & MINUS) || (conv->flag & MINUS && size > conv->precision) || conv->before == 3)
-		{
-			while (i < size)
-				tab[i++] = c;
-			// write(1, tab, size);
-			buffer(&*pf, tab, size);
-		}
-		if((conv->flag & MINUS && !(size > conv->precision)) && !(conv->before == 3))
-		{
-			while (i < size)
-				tab[i++] = c;
-			// write(1, tab, size);
-			buffer(&*pf, tab, size);
-		}
+		while (i < size)
+			tab[i++] = c;
+		buffer(&*pf, tab, size);
 	}
 	conv->min_width = 0;
 	return (conv);
@@ -99,44 +88,22 @@ void	conv_s(t_printf *pf, t_conv *conv)
 	void *str;
 	int len;
 
-	conv->flag & MODIFIER_L ? (str = va_arg(pf->ap, wchar_t *)) : (str = va_arg(pf->ap, unsigned char *));
+	conv->flag & MODIFIER_L && MB_CUR_MAX > 1 ? (str = va_arg(pf->ap, wchar_t *)) : (str = va_arg(pf->ap, unsigned char *));
 	len = (conv->flag & MODIFIER_L ? count_wchars(conv, str ,ft_wstrlen(str)) : ft_strlen(str));
-	if ((conv->flag & ZERO) && !(conv->flag & MINUS))
+	if (conv->min_width > len && (conv->flag & ZERO) && !(conv->flag & MINUS))
 		option_s(&*pf, len, '0', &*conv, 0);
-	else if (conv->flag & SPACE && conv->min_width > len)
+	else if (conv->min_width > len && conv->flag & SPACE)
 		option_s(&*pf, len, ' ', &*conv, 0);
 	else if (conv->min_width > len && !(conv->flag & MINUS))
 		option_s(&*pf, len, ' ', &*conv, 0);
 	else if ((conv->flag & MINUS))
 	{
-		conv->flag & MODIFIER_L ? print_wstring(conv, str, ft_wstrlen(str)) : buffer(&*pf, str, len);
+		conv->flag & MODIFIER_L ? print_wstring(&*pf, conv, str, ft_wstrlen(str)) : buffer(&*pf, str, len);
 		option_s(&*pf, len, ' ', &*conv, 0);
 		return;
 	}
 	if (conv->flag & MODIFIER_L)
-		print_wstring(conv, str, ft_wstrlen(str));
+		print_wstring(&*pf, conv, str, ft_wstrlen(str));
 	else
 		buffer(&*pf, str, len);
 }
-
-// if (conv->flag & MODIFIER_L)
-// 	{	
-// 		if (MB_CUR_MAX == 1)
-// 			return;
-// 		c = va_arg(pf->ap, wint_t);
-// 		len = count_wint(c);
-// 		conv->flag & ZERO && !(conv->flag & MINUS) ? option_c(len, '0', &*conv, 0) : 0;
-// 		conv->flag & SPACE ? option_c(len, ' ', &*conv, 0) : 0;
-// 		conv->min_width > len && !(conv->flag & MINUS) ? option_c(len, ' ', &*conv, 0) : 0;
-// 		conv->flag & MINUS ? print_wint(c) : 0 ;
-// 		conv->flag & MINUS ? option_c(len, ' ', &*conv, 0) : print_wint(c);
-// 	}
-// 	else
-// 	{
-// 		c = va_arg(pf->ap, unsigned);
-// 		(conv->flag & ZERO && !(conv->flag & MINUS)) ?
-// 		option_c(1, '0', &*conv, 0) : 0;
-// 		conv->flag & SPACE ? option_c(1, ' ', &*conv, 0) : 0;
-// 		conv->min_width > 1 && !(conv->flag & MINUS) ? option_c(1, ' ', &*conv, 0) : 0;
-// 		conv->flag & MINUS ? option_c(1, ' ', &*conv, c) : ft_putchar(c);
-// 	}
