@@ -6,15 +6,24 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 15:41:18 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/08/18 14:54:48 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/08/22 16:55:46 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "includes/ft_printf.h"
+#include "../includes/ft_printf.h"
 
 void	ft_error_pf(char *file, char *func, int line, char *s)
 {
-	printf ("\033[0;32mERROR\033[0m in %s > %s > line (%d) : %s\n", file, func, line, s);
+	ft_putstr("\033[1;37m----- \033[1;31mERROR\033[1;37m ----------\033[0m\n");
+	ft_putstr("\033[1;37mfile\033[0m		: ");
+	ft_putstr(file);
+	ft_putstr("\n\033[1;37mfunction\033[0m	: "); 
+	ft_putstr(func);
+	ft_putstr("\n\033[1;37mline\033[0m		: ("); 
+	ft_putnbr(line);
+	ft_putstr(")\n\033[1;37merror message\033[0m	: ");
+	ft_putstr(s);
+	ft_putstr("\n\033[1;37m----------------------\033[0m");
 	exit(-1);
 }
 
@@ -59,7 +68,7 @@ int		ft_printf(char *format, ...)
 	}
 	pf.buffer &&  pf.i_buf? print_buffer(pf.buffer, pf.i_buf) : 0;
 	va_end(pf.ap);
-	return (0);
+	return (pf.i_buf);
 }
 
 t_printf	*buffer(t_printf *pf, char *saved, int len)
@@ -78,6 +87,5 @@ t_printf	*buffer(t_printf *pf, char *saved, int len)
 	pf->buffer[pf->i_buf] = '\0';
 	return (pf);
 }
-//error |'\n' after %c 
-//error when "ewggr" without conv%
-// do unicode buffer() 
+
+//option 0 -1 tent qu'il y a un caractere deriere.

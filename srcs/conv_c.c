@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/ft_printf.h"
+#include "../includes/ft_printf.h"
 
 static int		count_wint(wint_t c)
 {
@@ -28,7 +28,7 @@ static int		count_wint(wint_t c)
 	return (size);
 }
 
-t_printf	*print_wint(t_printf *pf, wint_t wint)
+t_printf	*print_wint(t_printf *pf, wint_t wint) ////////////////////////
 {
 	char	str[4];
 

@@ -6,7 +6,7 @@
 #    By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/07/29 22:02:18 by mbriffau          #+#    #+#              #
-#    Updated: 2017/08/14 23:34:09 by mbriffau         ###   ########.fr        #
+#    Updated: 2017/08/22 16:40:24 by mbriffau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,38 +14,47 @@ NAME = ft_printf
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror
+LIBFT = libft
 
-INC = libft/libft.a
+FLAGS = -Wall -Wextra -Werror -02
 
-SRCS = srcs/
+LIB_NAME = $(LIBFT).a
 
-DIR = ./
+INC = $(LIBFT)/$(LIB_NAME)
 
-FILES = 		ft_printf.c \
-				parse_conversion.c \
-				conv_c.c \
-				conv_s.c \
-				conv_d.c \
-				conv_p.c \
-				conv_x.c \
-				conv_o.c \
-				option.c \
-				conv_u.c \
-				conv_b.c \
-				init_conv.c \
-				call_buffer.c \
+SRCS = srcs/$(FILES)
+
+DIR_SRCS = ./$(SRCS)
+
+FILES = 	srcs/ft_printf.c \
+				srcs/parse_conversion.c \
+				srcs/conv_c.c \
+				srcs/conv_s.c \
+				srcs/conv_d.c \
+				srcs/conv_p.c \
+				srcs/conv_x.c \
+				srcs/conv_o.c \
+				srcs/option.c \
+				srcs/conv_u.c \
+				srcs/conv_b.c \
+				srcs/init_conv.c \
+				srcs/call_buffer.c \
+				srcs/main.c
 
 all : $(NAME)
 
 $(NAME):
-	@gcc -o $(NAME) $(DIR)$(FILES) main.c $(INC)
-	@gcc -o true_printf test_printf.c
+	@make -C $(LIBFT)
+	@gcc -o $(NAME) $(FILES) $(INC)
+	@echo "ft_printf \033[0;32mcompiled.\033[0m"
 
 clean :
-	rm ft_printf
-	rm true_printf
+	@rm ft_printf
+	@echo "ft_printf \033[1;31mdeleted.\033[0m"
 
 fclean : clean
 
-make re: fclean all
+lib_re : 
+	make fclean -C $(LIBFT)
+
+re : lib_re fclean all

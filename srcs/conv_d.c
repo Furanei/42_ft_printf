@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "includes/ft_printf.h"
+#include "../includes/ft_printf.h"
 
 static t_conv	option_d(t_printf *pf, int n, char c, t_conv *conv, char *s)
 {
@@ -45,7 +45,7 @@ static t_conv	option_d(t_printf *pf, int n, char c, t_conv *conv, char *s)
 	return (*conv);
 }
 
-int	conv_d_minus(t_printf *pf, t_conv *conv, int len, char *str)
+static int	conv_d_minus(t_printf *pf, t_conv *conv, int len, char *str)
 {
 	if (!conv->min_width && !conv->precision)
 			return(pf->i_buf);
@@ -142,7 +142,8 @@ int	conv_d_minus(t_printf *pf, t_conv *conv, int len, char *str)
 	buffer(&*pf, str, len);
 	return(0);
 }
-int		conv_d_hh_nominus(t_printf *pf, t_conv *conv, char *str, int len)
+
+static int		conv_d_hh_nominus(t_printf *pf, t_conv *conv, char *str, int len)
 {
 
 //JUSTE LARGEUR MINIMALE

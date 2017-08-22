@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 18:34:23 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/08/18 14:56:03 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/08/22 15:47:36 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include <stdarg.h>
 # include <errno.h>
 # include <unistd.h>
-# include <wchar.h>
+# include <wchar.h> 
 
 # include <stdio.h>// to delete
 
@@ -32,7 +32,6 @@
 # define TYPE_O 		(1 << 25)
 # define TYPE_B 		(1 << 24)
 
-
 # define PRECISION		(1 << 11)
 
 # define MODIFIER_H		(1 << 10)
@@ -48,6 +47,20 @@
 # define ZERO			(1 << 1)
 # define SPACE			(1 << 0)
 
+# define LOG_CLEAR		\033[2K
+# define LOG_UP			\033[A
+# define LOG_NOCOLOR	\033[0m
+# define LOG_BOLD		\033[1m
+# define LOG_UNDERLINE	\033[4m
+# define LOG_BLINKING	\033[5m
+# define LOG_BLACK		\033[1;30m
+# define LOG_RED		\033[1;31m
+# define LOG_GREEN		\033[1;32m
+# define LOG_YELLOW		\033[1;33m
+# define LOG_BLUE		\033[1;34m
+# define LOG_VIOLET		\033[1;35m
+# define LOG_CYAN		\033[1;36m
+# define LOG_WHITE		\033[1;37m
 
 typedef struct			s_conv
 {
@@ -77,8 +90,8 @@ int			ft_printf(char *format, ...);
 t_printf	*parse_conversion(t_printf *pf);
 t_conv		*init_conv(void);
 t_printf	*print_wint(t_printf *pf, wint_t wint);
-void		print_p(char *str);
-int			option(int n, char c, t_conv *conv, char *s);
+void		print_p(t_printf *pf, int len, char *str);
+int			option(t_printf *pf, int n, char c, t_conv *conv, char *s);
 t_conv		*option_print(int print_size, char c, t_conv *conv, char *s);
 t_printf	*buffer(t_printf *pf, char *saved, int len);
 
@@ -89,7 +102,7 @@ int			conv_d_l(t_printf *pf, t_conv *conv);
 int			conv_d_h(t_printf *pf, t_conv *conv);
 void		conv_f(t_printf *pf, t_conv *conv);
 void		conv_f_L(t_printf *pf, t_conv *conv);
-void		conv_p(t_printf *pf, t_conv *conv);
+int			conv_p(t_printf *pf, t_conv *conv);
 void		conv_mx(t_printf *pf, t_conv *conv);
 void		conv_x(t_printf *pf, t_conv *conv, char height);
 void		conv_o(t_printf *pf, t_conv *conv);

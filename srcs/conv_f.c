@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "includes/ft_printf.h"
+#include "../includes/ft_printf.h"
 
 void	conv_f_L(t_printf *pf, t_conv *conv)
 {

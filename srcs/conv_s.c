@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "includes/ft_printf.h"
+#include "../includes/ft_printf.h"
 
 int		ft_wstrlen(wchar_t *s)
 {
@@ -50,6 +50,7 @@ static int		count_wchars(t_conv *conv, wchar_t *wstr, int size)
 	size = i;
 	return (total);
 }
+
 static void	print_wstring(t_printf *pf, t_conv *conv, wchar_t *wstr, int size)
 {
 	int i = 0;

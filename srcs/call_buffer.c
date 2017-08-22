@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/ft_printf.h"
+#include "../includes/ft_printf.h"
 
 int		add_char_and_string_2_buf(t_printf *pf, char c, char *str, int len)
 {

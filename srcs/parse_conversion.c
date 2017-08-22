@@ -6,11 +6,11 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 15:49:25 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/08/17 17:20:31 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/08/22 17:21:34 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "includes/ft_printf.h"
+#include "../includes/ft_printf.h"
 
 static t_conv		*parse_flags(t_printf *pf, t_conv *conv)
 {
@@ -60,7 +60,7 @@ static t_conv	*parse_modifier(t_printf *pf, t_conv *conv)
 		if (pf->format[pf->i] == 'l')
 			(pf->format[pf->i + 1] == 'l') ? (conv->flag += MODIFIER_LL) && (pf->i++) : (conv->flag += MODIFIER_L);
 		(pf->format[pf->i + 1] == 'j') ? (conv->flag += MODIFIER_J) : 0;
-		(pf->format[pf->i + 1] == 'z') ? (conv->flag += MODIFIER_Z) : 0;
+		(pf->format[pf->i + 1] == 'z') ? (conv->flag += (1 << 5)) : 0;
 		pf->i++;
 	}
 	return (conv);
@@ -82,6 +82,19 @@ static int parse_type(char c)
 	return (ret);
 }
 
+void option_no_conv(t_printf *pf, t_conv *conv)
+{
+	int c;
+	int i = 0;
+	char tab[conv->min_width];
+	c = (int)ft_strchr("#0-+ ", pf->format[pf->i]);
+
+	tab[conv->min_width - 1] = 0;
+	while (i < conv->min_width)
+		tab[i++] = c;
+	buffer(&*pf, tab, conv->min_width - 1);
+}
+
 t_printf	*parse_conversion(t_printf *pf)
 {
 	t_conv		*conv;
@@ -92,18 +105,24 @@ t_printf	*parse_conversion(t_printf *pf)
 	(pf->format[pf->i] == '.' ? parse_precision(&*pf, &*conv) : 0);
 	conv = parse_modifier(&*pf, conv);
 	(!pf->format[pf->i]) ? ft_error_pf(INFO, "error_format_type") : 0;
-	conv->flag += parse_type(pf->format[pf->i]);
+	conv->flag += parse_type(pf->format[pf->i]);// si il ny a rien apres -> option
 	while (!(ft_strchr("cCsSdDipxXuUoO", conv->type)))
 		pf->i += 1;
 	conv->flag & TYPE_D ? conv_d(pf, &*conv) : 0;
 	conv->flag & TYPE_S ? conv_s(pf, &*conv) : 0;
 	conv->flag & TYPE_C ? conv_c(pf, &*conv) : 0;
 	conv->flag & TYPE_P ? conv_p(pf, &*conv) : 0;
-	((conv->flag & TYPE_X) & !(conv->flag & MODIFIER_L)) ? conv_x(pf, &*conv, 'x') : 0;
-	((conv->flag & TYPE_X) & (conv->flag & MODIFIER_L)) ? conv_x(pf, &*conv, 'X') : 0;
+	((conv->flag & TYPE_X) && !(conv->flag & MODIFIER_L)) ? conv_x(pf, &*conv, 'x') : 0;
+	((conv->flag & TYPE_X) && (conv->flag & MODIFIER_L)) ? conv_x(pf, &*conv, 'X') : 0;
 	conv->flag & TYPE_O ? conv_o(pf, &*conv) : 0;
 	conv->flag & TYPE_U ? conv_u(pf, &*conv) : 0;
 	conv->flag & TYPE_B ? conv_b(pf, &*conv) : 0;
+	if (!(conv->flag & (TYPE_S + TYPE_C + TYPE_D + TYPE_P + TYPE_X + TYPE_U + TYPE_O + TYPE_B)))
+	{
+		if ((conv->flag & (MINUS + PLUS + SHARP + ZERO + SPACE)) && conv->min_width)
+			option_no_conv(&*pf, &*conv);
+	}
 	pf->i++;
 	return (pf);
 }
+

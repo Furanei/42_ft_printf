@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/ft_printf.h"
-
+#include "../includes/ft_printf.h"
 
 t_conv	*option_print(int print_size, char c, t_conv *conv, char *s)
 {
@@ -64,7 +63,7 @@ t_conv	*option_print(int print_size, char c, t_conv *conv, char *s)
 // Le N c'est simplement conv->min_width donc inutile en revanche on a besoin de soustraire la taille de ce qu'il y a a print.
 // donc n devient print_size a soustraire.
 // J'ai garde ta version ici
-int	option(int n, char c, t_conv *conv, char *s)
+int	option(t_printf *pf, int n, char c, t_conv *conv, char *s)
 {
 	int		i;
 	char	tab[n + 1];
@@ -77,41 +76,47 @@ int	option(int n, char c, t_conv *conv, char *s)
 	{
 		while (i < n)
 			tab[i++] = c;
-		write(1, tab, n);
-		ft_putchar('+');
-		ft_putstr(s);
+		buffer(&*pf, tab, n);
+		// write(1, tab, n);
+		// ft_putchar('+');
+		buffer(&*pf, "+", 1);
+		buffer(&*pf, s, ft_strlen(s));
+		// ft_putstr(s);
 		return(0);
 	}
 	if (!(conv->before == 3) && conv->before && s)
 	{
 		if(conv->ox == 1)
-			ft_putstr("0x");
-		ft_putstr(s);
+			buffer(&*pf, "0x0", 3);
+		buffer(&*pf, s, ft_strlen(s));
 	}
 	if (conv->precision_set == 2)
 	{
-		ft_putstr("0x");
+		buffer(&*pf, "0x", 2);
+		// ft_putstr("0x");
 		conv->ox = 0;
 	}
 	if(!(conv->flag & MINUS) || (conv->flag & MINUS && conv->min_width > conv->precision) || conv->before == 3)
 	{
 		while (i < n)
 			tab[i++] = c;
-		write(1, tab, n);
+		buffer(&*pf, tab, n);
+		// write(1, tab, n);
 	}
 	if(((conv->flag & PLUS) && !(conv->flag & ZERO) && !(conv->flag & MINUS) && (conv->flag & (TYPE_D + TYPE_U + TYPE_O)) && !(conv->before == 3) && !conv->flag & MODIFIER_HH))
-		ft_putchar('+');
+		buffer(&*pf, "+", 1);
 	if ((conv->before == 0 && s) || conv->before == 3)
 	{
 		if(conv->ox == 1)
-			ft_putstr("0x");
-		ft_putstr(s);
+			buffer(&*pf, "0x", 2);
+		buffer(&*pf, s, ft_strlen(s));
 	}
 	if((conv->flag & MINUS && !(conv->min_width > conv->precision)) && !(conv->before == 3))
 	{
 		while (i < n)
 			tab[i++] = c;
-		write(1, tab, n);
+		buffer(&*pf, tab, n);
+		// write(1, tab, n);
 	}
 	
 	return (n - i);
