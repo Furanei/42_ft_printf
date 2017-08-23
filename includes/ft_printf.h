@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 18:34:23 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/08/22 15:47:36 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/08/23 18:03:08 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int			option(t_printf *pf, int n, char c, t_conv *conv, char *s);
 t_conv		*option_print(int print_size, char c, t_conv *conv, char *s);
 t_printf	*buffer(t_printf *pf, char *saved, int len);
 
+t_printf	*conversion_specifier(t_printf *pf, t_conv *conv);
 void		conv_c(t_printf *pf, t_conv *conv);
 void		conv_s(t_printf *pf, t_conv *conv);
 int			conv_d(t_printf *pf, t_conv *conv);
@@ -108,6 +109,7 @@ void		conv_x(t_printf *pf, t_conv *conv, char height);
 void		conv_o(t_printf *pf, t_conv *conv);
 void		conv_u(t_printf *pf, t_conv *conv);
 void		conv_b(t_printf *pf, t_conv *conv);
+void		no_conv(t_printf *pf, t_conv *conv);
 int			add_char_and_string_2_buff(t_printf *pf, char c, char *str, int len);
 int			minwidth_decr_add_char_2_buf(t_printf *pf, char c, t_conv *conv);
 int			special_hhd_reverse_0_n_minus(t_printf *pf, char *str, char c);

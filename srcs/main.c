@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/14 20:13:45 by achambon          #+#    #+#             */
-/*   Updated: 2017/08/22 16:56:51 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/08/23 17:54:16 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int pf;
 // 	printf("+>%011s\n", "abc");
 // 	ft_printf("->%011s\n", "abc");
 // 	printf("+>%011s\n", "abc");
-	my = ft_printf("->% 5tyu\n", "abc");
-	pf = printf("+>% 5tyu\n", "abc");
+	my = ft_printf("->%+5yu\n", "abc");
+	pf = printf("+>%+5tyu\n", "abc");
 	printf("my %d\npf %d\n", my, pf);
 // 	ft_printf("->%011ls\n", L"ひらが");
 // 	printf("+>%011ls\n", L"ひらが");
