@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 15:41:18 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/08/22 16:55:46 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/16 15:04:49 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int		ft_printf(char *format, ...)
 	}
 	pf.buffer &&  pf.i_buf? print_buffer(pf.buffer, pf.i_buf) : 0;
 	va_end(pf.ap);
-	return (pf.i_buf);
+	return (pf.i_buf - pf.subtract_buffer);
 }
 
 t_printf	*buffer(t_printf *pf, char *saved, int len)

@@ -6,7 +6,7 @@
 #    By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/07 18:50:11 by mbriffau          #+#    #+#              #
-#    Updated: 2017/08/22 16:16:54 by mbriffau         ###   ########.fr        #
+#    Updated: 2017/09/14 15:06:34 by mbriffau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC =			gcc
 
 FLAGS =			-Wall -Werror -Wextra
 
-HEADER =		libft.h
+HEADER =		$(SRCS)/libft.h
 
 HEADER_DIR =	./
 
@@ -101,7 +101,7 @@ COMPILED =		$(FT_COMPILED)
 
 all: $(NAME)
 
-$(NAME): $(FT_COMPILED)
+$(NAME): progess $(FT_COMPILED)
 	@ar rc $(NAME) $(FT_COMPILED)
 	@ranlib $(NAME)
 	@echo "libft.a \033[0;32mcreated.\033[0m"
@@ -111,10 +111,14 @@ $(FT_COMPILED): %.o: $(FT_SRC_DIR)%.c $(HEADER)
 
 clean:
 	@-/bin/rm -f $(COMPILED)
-	@echo "All files .o have been \033[1;31mdeleted\033[0m."
 
-fclean: clean
+fclean:
 	@-/bin/rm -f $(NAME)
 	@echo "$(NAME) has been \033[1;31mdeleted\033[0m."
 
 re: fclean all
+
+progess :
+	@echo "in progress..."
+
+.PHONY.: all clean fclean re

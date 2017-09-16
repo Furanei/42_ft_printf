@@ -12,14 +12,14 @@
 
 #include "../includes/ft_printf.h"
 
-int		add_char_and_string_2_buf(t_printf *pf, char c, char *str, int len)
+int		add_char_and_string_2_buff(t_printf *pf, char c, char *str, int len)
 {
 	buffer(pf, &c, 1);
 	buffer(pf, str, len);
 	return(pf->i_buf);
 }
 
-int		minwidth_decr_add_char_2_buf(t_printf *pf, char c, t_conv *conv)
+int		minwidth_decr_add_char_2_buff(t_printf *pf, char c, t_conv *conv)
 {
 	conv->min_width--;
 	buffer(pf, &c, 1);

@@ -6,11 +6,12 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/05 15:58:06 by achambon          #+#    #+#             */
-/*   Updated: 2017/08/18 15:50:10 by achambon         ###   ########.fr       */
+/*   Updated: 2017/08/28 16:20:49 by achambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_printf.h"
+# include "../includes/ft_printf.h"
+
 
 static t_conv	option_p(t_printf *pf, int n, char c, t_conv *conv, char *s)
 {

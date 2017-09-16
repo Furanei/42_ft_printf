@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   conv_o.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achambon <achambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/05 19:35:35 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/08/11 14:55:22 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/15 15:47:58 by achambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_printf.h"
+
+# include "../includes/ft_printf.h"
 
 static t_conv	option_o(t_printf *pf, int n, char c, t_conv *conv, char *s)
 {
@@ -220,17 +221,28 @@ int print_conv_o(t_printf *pf, char *str, t_conv *conv)
 
 	len = ft_strlen(str);
 	width_temp = conv->min_width;
+	if(!conv->precision && conv->precision_tick && !conv->min_width)
+	{
+			if(conv->min_width)
+				while(conv->min_width--)
+					buffer(&*pf, " ", 1);
+			if((!(ft_strncmp("0", str, len)) && conv->flag & SHARP))
+			{
+				buffer(&*pf, str, len);
+			 	return(pf->i_buf);
+			}
+	}
 	if (!conv->min_width && !conv->precision)
 	{
 		if(conv->flag & SHARP)
 		{
 			buffer(&*pf, "0", 1);
-			conv->min_width;
+			conv->min_width--;
 		}
 		if(conv->flag & SPACE && !(conv->flag & PLUS))
-			return(add_char_and_string_2_buf(&*pf, ' ', str, len));
+			return(add_char_and_string_2_buff(&*pf, ' ', str, len));
 		if(conv->flag & PLUS)
-			return(add_char_and_string_2_buf(&*pf, '+', str, len));
+			return(add_char_and_string_2_buff(&*pf, '+', str, len));
 	}
 	if (conv->flag & MINUS)
 	{
@@ -291,14 +303,19 @@ int print_conv_o(t_printf *pf, char *str, t_conv *conv)
 		}
 		if(conv->min_width >= len || width_temp >= len)
 		{
+			if(conv->precision_tick && conv->precision_set == 0 && !ft_strcmp("0", str))
+			{	while(conv->min_width--)
+					buffer(&*pf, " ", 1);
+				return(pf->i_buf);
+			}
 			if(conv->flag & SHARP)
 				conv->min_width--;
 			if(conv->flag & SPACE && !(conv->flag & PLUS) && !(conv->flag & SHARP))
 			{
 				if (conv->flag & ZERO)
-					minwidth_decr_add_char_2_buf(&*pf, '0', &*conv);
+					minwidth_decr_add_char_2_buff(&*pf, '0', &*conv);
 				else
-					minwidth_decr_add_char_2_buf(&*pf, ' ', &*conv);
+					minwidth_decr_add_char_2_buff(&*pf, ' ', &*conv);
 			}
 			if(conv->flag & PLUS && !(conv->flag & SHARP) && !(conv->flag & ZERO + MODIFIER_HH))
 				conv->min_width--;
@@ -312,7 +329,7 @@ int print_conv_o(t_printf *pf, char *str, t_conv *conv)
 				if(str[0] == '-')
 				{
 					str[0] = '0';
-					return(add_char_and_string_2_buf(&*pf, '-', str, len));
+					return(add_char_and_string_2_buff(&*pf, '-', str, len));
 				}
 
 				option_o(&*pf, conv->min_width - len, '0', &*conv, str);
@@ -331,6 +348,8 @@ int print_conv_o(t_printf *pf, char *str, t_conv *conv)
 			return(pf->i_buf);
 		}
 	}
+	if(conv->precision_tick && conv->precision_set == 0 && !ft_strcmp("0", str))	
+				return(pf->i_buf);
 //JUSTE PRECISION
 	if (!conv->min_width && conv->precision && conv->flag & MINUS)
 		return(0);
@@ -357,7 +376,7 @@ int print_conv_o(t_printf *pf, char *str, t_conv *conv)
 			conv->before = 0;
 			if(conv->flag & SPACE && !(conv->flag & PLUS))
 			{
-				minwidth_decr_add_char_2_buf(&*pf, ' ', &*conv);
+				minwidth_decr_add_char_2_buff(&*pf, ' ', &*conv);
 			}
 			if(conv->flag & PLUS)
 				conv->min_width--;

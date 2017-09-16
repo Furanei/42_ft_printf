@@ -1,2 +1,0 @@
-# Printf
-ft_printf

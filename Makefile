@@ -5,58 +5,83 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/07/29 22:02:18 by mbriffau          #+#    #+#              #
-#    Updated: 2017/08/23 18:03:53 by mbriffau         ###   ########.fr        #
+#    Created: 2017/08/10 16:46:50 by achambon          #+#    #+#              #
+#    Updated: 2017/09/15 14:06:59 by mbriffau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = ft_printf
+NAME = libftprintf.a
 
 CC = gcc
 
+FLAGS = -Wall -Wextra -Werror -O2
+
 LIBFT = libft
 
-FLAGS = -Wall -Wextra -Werror -02
+HEADER = includes
 
-LIB_NAME = $(LIBFT).a
+DIR_S = srcs
 
-INC = $(LIBFT)/$(LIB_NAME)
+DIR_O = obj
 
-SRCS = srcs/$(FILES)
+COMPILED = $(LIBFT_COMPILED) $(SOURCES)
 
-DIR_SRCS = ./$(SRCS)
+SRCS = $(addprefix $(DIR_S)/,$(SOURCES))
 
-FILES = 	srcs/ft_printf.c \
-				srcs/parse_conversion.c \
-				srcs/conv_c.c \
-				srcs/conv_s.c \
-				srcs/conv_d.c \
-				srcs/conv_p.c \
-				srcs/conv_x.c \
-				srcs/conv_o.c \
-				srcs/option.c \
-				srcs/conv_u.c \
-				srcs/conv_b.c \
-				srcs/init_conv.c \
-				srcs/call_buffer.c \
-				srcs/no_conv.c \
-				srcs/conversion_specifier.c \
-				srcs/main.c
+OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 
-all : $(NAME)
+SOURCES =	ft_printf.c \
+			parse_conversion.c \
+			ft_error_management.c \
+			conversion_specifier.c \
+			init_conv.c \
+			call_buffer.c \
+			option.c \
+			conv_c.c \
+			conv_d.c \
+			conv_o.c \
+			conv_p.c \
+			conv_s.c \
+			conv_u.c \
+			conv_x.c \
+			conv_b.c \
+			conv_percent.c \
+			no_conv.c
 
-$(NAME):
+all: $(NAME)
+
+$(NAME): $(OBJS)
 	@make -C $(LIBFT)
-	@gcc -o $(NAME) $(FILES) $(INC)
-	@echo "ft_printf \033[0;32mcompiled.\033[0m"
+	@cp libft/libft.a ./$(NAME)
+	@ar rc $(NAME) $(OBJS)
+	@ranlib $(NAME)
+	@echo "libftprintf.a \033[0;32mcreated.\033[0m"~
 
-clean :
-	@rm ft_printf
-	@echo "ft_printf \033[1;31mdeleted.\033[0m"
+$(DIR_O)/%.o: $(DIR_S)/%.c
+	@mkdir -p obj
+	@$(CC) $(FLAGS) -I $(HEADER) -o $@ -c $<
 
-fclean : clean
+clean:
+	@make clean -C $(LIBFT)
+	@-/bin/rm -f $(OBJS)
+	@-/bin/rm -rf $(DIR_O)
+	@echo "All files .o have been \033[1;31mdeleted\033[0m."
 
-lib_re : 
-	make fclean -C $(LIBFT)
+fclean: clean
+	@make fclean -C $(LIBFT)
+	@-/bin/rm -f $(NAME)
+	@echo "$(NAME) has been \033[1;31mdeleted\033[0m."
 
-re : lib_re fclean all
+re : fclean all testre
+
+test :
+	@$(CC) srcs/main.c $(NAME) -I $(HEADER)
+	@echo "a.out \033[0;32mcreated.\033[0m"
+
+testc:
+	@rm -f a.out
+	@echo "has been \033[1;31mdeleted\033[0m."
+
+testre: testc test
+
+.PHONY.: all clean fclean re

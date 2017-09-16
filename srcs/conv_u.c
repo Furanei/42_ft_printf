@@ -6,11 +6,33 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/07 13:05:40 by achambon          #+#    #+#             */
-/*   Updated: 2017/08/11 14:57:31 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/16 18:29:59 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_printf.h"
+# include "../includes/ft_printf.h"
+
+static char	*ft_itoa_pf(uintmax_t n)
+{
+	int			i;
+	uintmax_t	a;
+	char		*str;
+
+	i = 1;
+	a = n;
+	while ((a = a / 10) > 0)
+		i++;
+	if (!(str = (char *)malloc((sizeof(char) * i) + 1)))
+		return (0);
+	ft_bzero(str, i + 1);
+	str[i] = '\0';
+	while (i-- >= 0)
+	{
+		str[i] = ((n % 10) + '0');
+		n = n / 10;
+	}
+	return (str);
+}
 
 static t_conv	option_u(t_printf *pf, int n, char c, t_conv *conv, char *s)
 {
@@ -203,16 +225,16 @@ int	print_conv_u(t_printf *pf, char *str, t_conv *conv)
 
 	len = ft_strlen(str);
 	width_temp = conv->min_width;
-	if (!conv->min_width && !conv->precision)
-	{
-		if(conv->flag & SPACE && !(conv->flag & PLUS))
-			return(add_char_and_string_2_buf(&*pf, ' ', str, len));
-		if(conv->flag & PLUS)
-			return(add_char_and_string_2_buf(&*pf, '+', str, len));
-	}
+	// if (!conv->min_width && !conv->precision)
+	// {
+	// 	if(conv->flag & SPACE && !(conv->flag & PLUS))
+	// 		return(add_char_and_string_2_buff(&*pf, ' ', str, len));
+	// 	if(conv->flag & PLUS)
+	// 		return(add_char_and_string_2_buff(&*pf, '+', str, len));
+	// }
 	if (conv->flag & MINUS)
 	{
-		(conv_o_minus(&*pf, conv, len, str));
+		(conv_u_minus(&*pf, conv, len, str));
 		if (conv->min_width > len || width_temp > len)
 		{
 			if (str[0] == '-')
@@ -265,9 +287,9 @@ int	print_conv_u(t_printf *pf, char *str, t_conv *conv)
 			if(conv->flag & SPACE && !(conv->flag & PLUS))
 			{
 				if (conv->flag & ZERO)
-					minwidth_decr_add_char_2_buf(&*pf, '0', &*conv);
+					minwidth_decr_add_char_2_buff(&*pf, '0', &*conv);
 				else
-					minwidth_decr_add_char_2_buf(&*pf, ' ', &*conv);
+					minwidth_decr_add_char_2_buff(&*pf, ' ', &*conv);
 			//	ft_putchar(' ');
 			//	conv->min_width--;
 			}
@@ -285,7 +307,7 @@ int	print_conv_u(t_printf *pf, char *str, t_conv *conv)
 				if(str[0] == '-')
 				{
 					str[0] = '0';
-					return(add_char_and_string_2_buf(&*pf, '-', str, len));
+					return(add_char_and_string_2_buff(&*pf, '-', str, len));
 				}
 				option_u(&*pf, conv->min_width - len, '0', &*conv, str);
 				return(pf->i_buf);
@@ -332,7 +354,7 @@ int	print_conv_u(t_printf *pf, char *str, t_conv *conv)
 			conv->before = 0;
 			if(conv->flag & SPACE && !(conv->flag & PLUS))
 			{
-				minwidth_decr_add_char_2_buf(&*pf, ' ', &*conv);
+				minwidth_decr_add_char_2_buff(&*pf, ' ', &*conv);
 			}
 			if(conv->flag & PLUS)
 				conv->min_width--;
@@ -368,16 +390,49 @@ int	print_conv_u(t_printf *pf, char *str, t_conv *conv)
 
 void	conv_u(t_printf *pf, t_conv *conv)
 {
-	unsigned int ptr;
+<<<<<<< HEAD
+	unsigned long int ptr;
+=======
+	unsigned long ptr;
+>>>>>>> 83bd91f0faf5455ae3ce84337d996c8306f98b9b
 
 	ptr = 0;
-	conv->flag & MODIFIER_L ? ptr = (unsigned long int)ptr : 0 ;
-	conv->flag & MODIFIER_LL ? ptr = (unsigned long long int)ptr : 0;
-	conv->flag & MODIFIER_H ? ptr = (uint16_t)ptr : 0;
-	conv->flag & MODIFIER_HH ? ptr = (uint8_t)ptr : 0;
-	conv->flag & MODIFIER_Z ? ptr = (size_t)ptr : 0;
-	conv->flag & MODIFIER_J ? ptr = (uintmax_t)ptr : 0;
+	if (conv->flag & MODIFIER_L)
+	{
+		ptr = (unsigned long int)ptr;
+		// printf("MODIFIER_L\n");
+	}
+	else if (conv->flag & MODIFIER_LL)
+	{
+		ptr = (unsigned long long int)ptr;
+		// printf("MODIFIER_LL\n");
+	}
+	else if (conv->flag & MODIFIER_H)
+	{
+		ptr = (uint16_t)ptr;
+		// printf("MODIFIER_H\n");
+	}
+	else if (conv->flag & MODIFIER_HH)
+	{
+		ptr = (uint8_t)ptr;
+		// printf("MODIFIER_HH\n");
+	}
+	else if (conv->flag & MODIFIER_Z)
+	{
+		ptr = (size_t)ptr;
+		// printf("MODIFIER_Z\n");
+	}
+	else if (conv->flag & MODIFIER_J)
+	{
+		ptr = (uintmax_t)ptr;
+		// printf("MODIFIER_J\n");
+	}
+	else 
+	{
+		ptr = (unsigned)ptr;
+		// printf("NO_MODIFIER\n");
+	}
 	ptr = va_arg(pf->ap, uintmax_t);
-	print_conv_u(pf, ft_itoa_base((long long)ptr, 10), conv);
+	print_conv_u(pf, ft_itoa_pf((uintmax_t)ptr), conv);
 	return;
 }

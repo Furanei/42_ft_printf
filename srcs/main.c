@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/14 20:13:45 by achambon          #+#    #+#             */
-/*   Updated: 2017/08/23 17:54:16 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/16 18:26:45 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,23 @@
 #include <locale.h>
 
 
-int		main(int ac, char **av)
+int		main(void)
 {
-	if (ac)
+	// if (ac)
 	setlocale(LC_ALL, "");
-int my;
-int pf;
+
+
+	ft_printf("%u\n", (unsigned int)-42);
+	printf("%u\n", (unsigned int)-42);
+
 // ft_printf("Hello%s\n", " world!");
 //-------------TEST_S-----------------
 // 	ft_printf("->%011s\n", "abc");
 // 	printf("+>%011s\n", "abc");
 // 	ft_printf("->%011s\n", "abc");
 // 	printf("+>%011s\n", "abc");
-	my = ft_printf("->%+5yu\n", "abc");
-	pf = printf("+>%+5tyu\n", "abc");
-	printf("my %d\npf %d\n", my, pf);
+	// ft_printf("->%+5yu\n", "abc");
+	// printf("+>%+5tyu\n", "abc");
 // 	ft_printf("->%011ls\n", L"ひらが");
 // 	printf("+>%011ls\n", L"ひらが");
 // 	ft_printf("->%-11S|\n", L"ひらが");
@@ -42,22 +44,22 @@ int pf;
 // 	ft_printf("->% S\n", L"ひらが");
 // 	printf("+>% S\n", L"ひらが");
 
-// 	ft_printf("o>%05s\n", "abc");
-// 	printf("x>%05s\n", "abc");
-// 	ft_printf("o>%05s\n", "abc");
-// 	printf("x>%05s\n", "abc");
-// 	ft_printf("o>%05s\n", "abc");
-// 	printf("x>%05s\n", "abc");
-// 	ft_printf("o>%05s\n", "abc");
-// 	printf("x>%05s\n", "abc");
-// 	ft_printf("o>%-5s|\n", "abc");
-// 	printf("x>%-5s|\n", "abc");
-// 	ft_printf("o>%+5s\n", "abc");
-// 	printf("x>%+5s\n", "abc");
-// 	ft_printf("o>%05s\n", "abc");
-// 	printf("x>%05s\n", "abc");
-// 	ft_printf("o>% s\n", "abc");
-// 	printf("x>% s\n", "abc");	
+	// ft_printf("o>%s\n", "abc");
+	// printf("x>%s\n", "abc");
+	// ft_printf("o>%s\n", "abc");
+	// printf("x>%s\n", "abc");
+	// ft_printf("o>%05s\n", "abc");
+	// printf("x>%05s\n", "abc");
+	// ft_printf("o>%05s\n", "abc");
+	// printf("x>%05s\n", "abc");
+	// ft_printf("o>%-5s|\n", "abc");
+	// printf("x>%-5s|\n", "abc");
+	// ft_printf("o>%+5s\n", "abc");
+	// printf("x>%+5s\n", "abc");
+	// ft_printf("o>%05s\n", "abc");
+	// printf("x>%05s\n", "abc");
+	// ft_printf("o>% s\n", "abc");
+	// printf("x>% s\n", "abc");	
 	
 // //------------TEST_C-----------------
 // 	ft_printf("->%05c\n", L's');

@@ -6,12 +6,12 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 18:34:23 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/08/23 18:03:08 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/16 15:04:55 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-# include "../libft/libft.h"
+# include "../libft/srcs/libft.h"
 # include <stdarg.h>
 # include <errno.h>
 # include <unistd.h>
@@ -23,14 +23,15 @@
 
 # define BUFFER_SIZE	1000
 
-# define TYPE_S 		(1 << 31)
-# define TYPE_C 		(1 << 30)
-# define TYPE_D 		(1 << 29)
-# define TYPE_P 		(1 << 28)
-# define TYPE_X 		(1 << 27)
-# define TYPE_U 		(1 << 26)
-# define TYPE_O 		(1 << 25)
-# define TYPE_B 		(1 << 24)
+# define TYPE_S			(1 << 31)
+# define TYPE_C			(1 << 30)
+# define TYPE_D			(1 << 29)
+# define TYPE_P			(1 << 28)
+# define TYPE_X			(1 << 27)
+# define TYPE_U			(1 << 26)
+# define TYPE_O			(1 << 25)
+# define TYPE_B			(1 << 24)
+# define TYPE_PERCENT 	(1 << 23)
 
 # define PRECISION		(1 << 11)
 
@@ -67,21 +68,22 @@ typedef struct			s_conv
 	int					min_width;
 	int					precision;
 	int					precision_set;
+	int					precision_tick;
 	int					ox;
 	int					before;
 	char				modif;
-	char				type;
 	char				sign;
 	int					flag;
 }						t_conv;
 
 typedef struct			s_printf
 {
-	char 		*format;
-	va_list		ap;
-	int			i;
-	char		*buffer;
-	int 		i_buf;
+	char 				*format;
+	va_list				ap;
+	int					i;
+	char				*buffer;
+	int 				i_buf;
+	int					subtract_buffer;
 }						t_printf;
 
 void		ft_error_pf(char *file, char *func, int line, char *s);
@@ -109,7 +111,8 @@ void		conv_x(t_printf *pf, t_conv *conv, char height);
 void		conv_o(t_printf *pf, t_conv *conv);
 void		conv_u(t_printf *pf, t_conv *conv);
 void		conv_b(t_printf *pf, t_conv *conv);
+void		conv_percent(t_printf *pf, t_conv *conv);
 void		no_conv(t_printf *pf, t_conv *conv);
 int			add_char_and_string_2_buff(t_printf *pf, char c, char *str, int len);
-int			minwidth_decr_add_char_2_buf(t_printf *pf, char c, t_conv *conv);
+int			minwidth_decr_add_char_2_buff(t_printf *pf, char c, t_conv *conv);
 int			special_hhd_reverse_0_n_minus(t_printf *pf, char *str, char c);
