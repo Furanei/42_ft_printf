@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 15:10:00 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/21 16:05:09 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/21 16:37:13 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,25 +58,23 @@ char *str)
 	return (0);
 }
 
-int		conv_d_nowidth_noprec(t_printf *pf, t_conv *conv, char *str, int len)
+int		add_char_and_string_2_buff(t_printf *pf, char c, char *str, int len)
 {
-	if (!conv->min_width && !conv->precision)
-	{
-		if (conv->flag & PLUS && str[0] != '-')
-			return (add_char_and_string_2_buff(&*pf, '+', str, len));
-		if (conv->flag & SPACE && !(conv->flag & PLUS) && str[0] != '-')
-			return (add_char_and_string_2_buff(&*pf, ' ', str, len));
-	}
-	return (0);
+	buffer(pf, &c, 1);
+	buffer(pf, str, len);
+	return(pf->i_buf);
 }
+
 
 void	conv_d(t_printf *pf, t_conv *conv)
 {
 	int				len;
-	uintmax_t		ptr;
+	intmax_t		ptr;
+	int				c;
 
 	int		width_temp;
 
+	c = 0;
 	ptr = ptr_number_base(&*pf, conv->flag);
 	pf->str = ft_itoa_printf((long long)ptr);
 	len = ft_strlen(pf->str);
@@ -85,9 +83,22 @@ void	conv_d(t_printf *pf, t_conv *conv)
 		option(&*pf, ' ', conv->min_width);
 		return ;
 	}
-	if (conv_d_nowidth_noprec(&*pf, conv, pf->str, len))
-		return ;
-	width_temp = conv->min_width;
+	if (!conv->min_width && !conv->precision && conv->flag & (SPACE + PLUS))
+	{
+		if (!(conv->flag & PLUS) && pf->str[0] != '-')
+		{
+			option(&*pf, ' ', 1);
+			buffer(pf, pf->str, len);
+			return ;
+		}
+		if ( pf->str[0] != '-')
+		{
+			option(&*pf, '+', 1);
+			buffer(pf, pf->str, len);
+			return ;
+		}
+	}
+	width_temp = conv->min_width;// ????
 	if (conv->flag & MODIFIER_HH && !(conv->flag & MINUS))
 	{
 		conv_d_hh_nominus(&*pf, conv, pf->str, len);

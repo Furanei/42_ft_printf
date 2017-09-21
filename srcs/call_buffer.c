@@ -6,18 +6,11 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 09:53:49 by achambon          #+#    #+#             */
-/*   Updated: 2017/09/20 16:28:02 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/21 16:06:33 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
-
-int		add_char_and_string_2_buff(t_printf *pf, char c, char *str, int len)
-{
-	buffer(pf, &c, 1);
-	buffer(pf, str, len);
-	return(pf->i_buf);
-}
 
 int		minwidth_decr_add_char_2_buff(t_printf *pf, char c, t_conv *conv)
 {
