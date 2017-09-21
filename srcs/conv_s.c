@@ -6,13 +6,13 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 16:07:37 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/16 17:30:12 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/19 15:19:35 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-int		ft_wstrlen(wchar_t *s)
+static int		ft_wstrlen(wchar_t *s)
 {
 	int		i;
 
@@ -90,8 +90,13 @@ void			conv_s(t_printf *pf, t_conv *conv)
 	void	*str;
 	int		len;
 
-	conv->flag & MODIFIER_L && MB_CUR_MAX > 1 ?
-	(str = va_arg(pf->ap, wchar_t *)) : (str = va_arg(pf->ap, unsigned char *));
+	if (conv->flag & MODIFIER_L)
+	{
+		str = va_arg(pf->ap, wchar_t *);
+		!(MB_CUR_MAX > 1) ? exit (-1) : 0;
+	}
+	(!(conv->flag & MODIFIER_L))
+	? str = va_arg(pf->ap, unsigned char *) : 0;
 	(str == NULL) ? (str = ft_strdup("(null)")) : 0;
 	len = (conv->flag & MODIFIER_L ? count_wchars(conv, str, ft_wstrlen(str)) :
 	ft_strlen(str));
@@ -103,15 +108,8 @@ void			conv_s(t_printf *pf, t_conv *conv)
 		option_s(&*pf, len, ' ', &*conv);
 	else if (conv->min_width > len && !(conv->flag & MINUS))
 		option_s(&*pf, len, ' ', &*conv);
-	else if (conv->min_width > len && conv->flag & MINUS)
-	{
-		conv->flag & MODIFIER_L ?
-		print_wstring(&*pf, conv, str, ft_wstrlen(str)) : buffer(&*pf, str, len);
-		option_s(&*pf, len, ' ', &*conv);
-		return ;
-	}
-	if (conv->flag & MODIFIER_L)
-		print_wstring(&*pf, conv, str, ft_wstrlen(str));
-	else
-		buffer(&*pf, str, len);
+	conv->flag & MODIFIER_L ? print_wstring(&*pf, conv, str, ft_wstrlen(str))
+	: buffer(&*pf, str, len);
+	(conv->min_width > len && conv->flag & MINUS)
+	? option_s(&*pf, len, ' ', &*conv) : 0;
 }

@@ -6,7 +6,7 @@
 #    By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/08/10 16:46:50 by achambon          #+#    #+#              #
-#    Updated: 2017/09/15 14:06:59 by mbriffau         ###   ########.fr        #
+#    Updated: 2017/09/21 13:12:57 by mbriffau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,15 +35,25 @@ SOURCES =	ft_printf.c \
 			ft_error_management.c \
 			conversion_specifier.c \
 			init_conv.c \
+			pointer.c \
 			call_buffer.c \
 			option.c \
 			conv_c.c \
 			conv_d.c \
+			conv_d2.c \
+			conv_d3.c \
+			conv_d4.c \
 			conv_o.c \
+			conv_o2.c \
+			conv_o3.c \
+			conv_o4.c \
 			conv_p.c \
 			conv_s.c \
 			conv_u.c \
 			conv_x.c \
+			conv_x2.c \
+			conv_x3.c \
+			conv_x4.c \
 			conv_b.c \
 			conv_percent.c \
 			no_conv.c
