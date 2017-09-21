@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 15:10:00 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/21 14:08:54 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/21 15:53:59 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,47 +70,77 @@ int		conv_d_nowidth_noprec(t_printf *pf, t_conv *conv, char *str, int len)
 	return (0);
 }
 
-int		conv_d_bis(t_printf *pf, t_conv *conv, char *str, int len)
+int		conv_d_bis(t_printf *pf, t_conv *conv, char *pf->str, int len)
 {
-	int		flag_hh;
 	int		width_temp;
 
-	if (conv_d_nowidth_noprec(&*pf, conv, str, len))
+	if (conv_d_nowidth_noprec(&*pf, conv, pf->str, len))
 		return (pf->i_buf);
 	width_temp = conv->min_width;
 	if (conv->flag & MODIFIER_HH && !(conv->flag & MINUS))
-		return (conv_d_hh_nominus(&*pf, conv, str, len));
+		return (conv_d_hh_nominus(&*pf, conv, pf->str, len));
 	if (conv->flag & MINUS)
-		return (conv_d_minus2(&*pf, conv, width_temp, str));
-	((str[0] == '-') && (conv->flag & MINUS)) ?
-		((flag_hh = 1) && (conv->min_width--)) : 0;
+		return (conv_d_minus2(&*pf, conv, width_temp, pf->str));
+	((pf->str[0] == '-') && (conv->flag & MINUS)) ?
+		((conv->min_width--)) : 0;
 	if (conv->min_width && !conv->precision)
-		return (conv_d_width_only(&*pf, conv, width_temp, str));
+		return (conv_d_width_only(&*pf, conv, width_temp, pf->str));
 	if (!conv->min_width && conv->precision && conv->flag & MINUS)
 		return (0);
 	if (!conv->min_width && conv->precision && !(conv->flag & MINUS))
-		return (conv_d_prec_only(&*pf, conv, len, str));
+		return (conv_d_prec_only(&*pf, conv, len, pf->str));
 	if (conv->min_width && conv->precision)
-		return (conv_d_width_and_prec(&*pf, conv, len, str));
-	buffer(&*pf, str, len);
+		return (conv_d_width_and_prec(&*pf, conv, len, pf->str));
+	buffer(&*pf, pf->str, len);
 	return (pf->i_buf);
 }
 
-int		conv_d(t_printf *pf, t_conv *conv)
+void	conv_d(t_printf *pf, t_conv *conv)
 {
 	int				len;
 	uintmax_t		ptr;
+
+	int		width_temp;
 
 	ptr = ptr_number_base(&*pf, conv->flag);
 	pf->str = ft_itoa_printf((long long)ptr);
 	len = ft_strlen(pf->str);
 	if (!conv->precision && conv->flag & PRECISION && ptr == 0)
 	{
-		if(conv->min_width)
-			while(conv->min_width--)
-				buffer(&*pf, " ", 1);
-		return (0);
+		option(&*pf, ' ', conv->min_width);
+		return ;
 	}
-	conv_d_bis(&*pf, conv, pf->str, len);
-	return (0);
+	if (conv_d_nowidth_noprec(&*pf, conv, pf->str, len))
+		return ;
+	width_temp = conv->min_width;
+	if (conv->flag & MODIFIER_HH && !(conv->flag & MINUS))
+	{
+		conv_d_hh_nominus(&*pf, conv, pf->str, len);
+		return ;
+	}
+	if (conv->flag & MINUS)
+	{
+		conv_d_minus2(&*pf, conv, width_temp, pf->str);
+		return ;
+	}
+	((pf->str[0] == '-') && (conv->flag & MINUS)) ?
+		((conv->min_width--)) : 0;
+	if (conv->min_width && !conv->precision)
+	{
+		conv_d_width_only(&*pf, conv, width_temp, pf->str);
+		return ;
+	}
+	if (!conv->min_width && conv->precision && conv->flag & MINUS)
+		return ;
+	if (!conv->min_width && conv->precision && !(conv->flag & MINUS))
+	{
+		conv_d_prec_only(&*pf, conv, len, pf->str);
+		return ;
+	}
+	if (conv->min_width && conv->precision)
+	{
+		conv_d_width_and_prec(&*pf, conv, len, pf->str);
+		return ;
+	}
+	buffer(&*pf, pf->str, len);
 }

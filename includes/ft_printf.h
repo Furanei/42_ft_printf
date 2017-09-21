@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 18:34:23 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/21 14:08:27 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/21 15:39:23 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ t_printf	*parse_conversion(t_printf *pf);
 t_conv		*init_conv(void);
 t_printf	*print_wint(t_printf *pf, wint_t wint);
 void		print_p(t_printf *pf, int len, char *str);
-int			option(t_printf *pf, int n, char c, t_conv *conv, char *s);
-t_conv		*option_print(int print_size, char c, t_conv *conv, char *s);
+// int			option(t_printf *pf, int n, char c, t_conv *conv, char *s);
+// t_conv		*option_print(int print_size, char c, t_conv *conv, char *s);
 t_printf	*buffer(t_printf *pf, char *saved, int len);
 
 t_printf	*conversion_specifier(t_printf *pf, t_conv *conv);
@@ -70,10 +70,11 @@ void		conv_c(t_printf *pf, t_conv *conv);
 */
 void		conv_s(t_printf *pf, t_conv *conv);
 
+int	option(t_printf *pf, int c, size_t n);
 /*
 **conv_d
 */
-int			conv_d(t_printf *pf, t_conv *conv);
+void			conv_d(t_printf *pf, t_conv *conv);
 
 /*
 **conv_x
