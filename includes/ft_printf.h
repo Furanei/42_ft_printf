@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 18:34:23 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/21 15:39:23 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/21 16:01:17 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char		*ft_uitoa_pf(uintmax_t n);
 
 
 
-int 		conv_d_bis(t_printf *pf, t_conv *conv, char *str, int len);
+
 int			conv_d_l(t_printf *pf, t_conv *conv);
 int			conv_d_h(t_printf *pf, t_conv *conv);
 int			conv_d_prec_only(t_printf *pf, t_conv *conv, int len, char *str);
