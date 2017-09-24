@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 18:34:23 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/24 02:18:31 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/24 18:27:25 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <errno.h>
 # include <unistd.h>
 # include <wchar.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 # include "macros_pf.h"
 
 # include <stdio.h>// to delete
@@ -45,6 +48,7 @@ typedef struct			s_printf
 	char				*buffer;
 	int 				i_buf;
 	int					subtract_buffer;
+	int					add_buffer;
 }						t_printf;
 
 void		ft_error_pf(char *file, char *func, int line, char *s);

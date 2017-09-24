@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 18:34:23 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/24 02:04:11 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/24 18:21:31 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@
 # define TYPE_PERCENT 	(1 << 23)
 
 
-# define PRECISION		(1 << 11)
+# define PRECISION		(1 << 13)
 
-# define MODIFIER_X		(1 << 12)
+# define MODIFIER_F		(1 << 12)
+# define MODIFIER_X		(1 << 11)
 # define MODIFIER_H		(1 << 10)
 # define MODIFIER_HH	(1 << 9)
 # define MODIFIER_L		(1 << 8)

@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 15:49:25 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/20 16:29:27 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/24 18:19:14 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static t_conv		*parse_modifier(t_printf *pf, t_conv *conv, char *s)
 		conv->flag += MODIFIER_L;
 	else if (ft_strchr("X", s[pf->i]))
 		!(conv->flag & MODIFIER_X) ? (conv->flag += MODIFIER_X) : 0;
+	else if (ft_strchr("F", s[pf->i]))
+		!(conv->flag & MODIFIER_F) ? (conv->flag += MODIFIER_F) && pf->i++ : 0;
 	else if (ft_strchr("hljz", s[pf->i]))
 	{
 		if (s[pf->i] == 'h')

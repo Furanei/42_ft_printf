@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 16:07:37 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/19 15:19:35 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/24 18:31:02 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,34 @@ static t_conv	*option_s(t_printf *pf, int print_size, char c, t_conv *conv)
 	return (conv);
 }
 
+void	conv_s_file(t_printf *pf)
+{
+	int		fd;
+	char	*s;
+	char	array[32];
+	int	ret;
+
+	s = va_arg(pf->ap, char *);
+	fd = open(s, O_RDONLY);
+	if (fd == -1 || -1 == read(fd, array, 1))
+		exit(-1);
+	close(fd);
+	fd = open(s, O_RDONLY);
+	while ((ret = read(fd, array, 32)))
+		buffer(&*pf, array, ret);
+
+}
+
 void			conv_s(t_printf *pf, t_conv *conv)
 {
 	void	*str;
 	int		len;
 
+	if (conv->flag & MODIFIER_F)
+	{
+		conv_s_file(&*pf);
+		return ;
+	}
 	if (conv->flag & MODIFIER_L)
 	{
 		str = va_arg(pf->ap, wchar_t *);

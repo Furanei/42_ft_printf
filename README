@@ -1,0 +1,7 @@
+BONUS : - gestion des couleurs {red}, {blue}, ect..
+		- getion des fond
+		- gestion du formatage.
+		- avec buffer sans maloc
+		- conv %b
+		- flag option %b
+		- flag mod F print FD 
