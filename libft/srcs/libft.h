@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/12 21:10:16 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/08/17 18:51:10 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/23 17:51:25 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void				ft_strclr(char *s);
 char				*ft_strnstr(char *big, const char *little, size_t len);
 char				*ft_strstr(const char *str1, const char *str2);
 char				*ft_strchr(const char *s, int c);
+char				*ft_strnchr(const char *s, int c, size_t n);
 char				*ft_strrchr(const char *s, int c);
 void				ft_striter(char *s, void (*f)(char *));
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));

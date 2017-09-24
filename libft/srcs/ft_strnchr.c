@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_striteri.c                                      :+:      :+:    :+:   */
+/*   ft_strnchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/21 17:46:40 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/24 01:15:28 by mbriffau         ###   ########.fr       */
+/*   Created: 2016/12/01 14:10:01 by mbriffau          #+#    #+#             */
+/*   Updated: 2017/09/23 17:50:27 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*
-** Applique la fonction f à chaque caractère de la chaine de
-** caractères passée en paramètre en précisant son index en premier
-** argument. Chaque caractère est passé par adresse à la
-** fonction f afin de pouvoir être modifié si nécéssaire.
-*/
-
-void		ft_striteri(char *s, void (*f)(unsigned int, char *))
+char	*ft_strnchr(const char *s, int c, size_t n)
 {
 	size_t		i;
-	size_t		y;
+	char		cmp;
+	size_t		len;
+	char		*str;
 
-	if (!s || !f)
-		return ;
 	i = 0;
-	y = ft_strlen(s);
-	if (s != NULL)
-		while (i < y)
-			f(i++, s++);
+	str = ((char*)s);
+	len = ft_strlen(s);
+	cmp = (char)c;
+	len = (n < len ? n : len);
+	while (i <= len)
+	{
+		if (str[i] == cmp)
+			return (((char *)str + i));
+		i++;
+	}
+	return (NULL);
 }

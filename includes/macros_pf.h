@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 18:34:23 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/21 13:11:43 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/24 02:04:11 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,21 @@
 # define ZERO			(1 << 1)
 # define SPACE			(1 << 0)
 
+# define LONGEST_COLOR	6
+
+/*init*/
+# define COLOR			"\033["
+
+# define EOC			"0m"
+# define BLACK			"30m"
+# define RED			"31m"
+# define GREEN			"32m"
+# define YELLOW			"33m"
+# define BLUE			"34m"
+# define VIOLET			"35m"
+# define CYAN			"36m"
+# define WHITE			"37m"
+
 # define LOG_CLEAR		\033[2K
 # define LOG_UP			\033[A
 # define LOG_NOCOLOR	\033[0m
@@ -59,3 +74,4 @@
 # define LOG_CYAN		\033[1;36m
 # define LOG_WHITE		\033[1;37m
 #endif
+

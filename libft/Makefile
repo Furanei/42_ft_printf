@@ -6,7 +6,7 @@
 #    By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/07 18:50:11 by mbriffau          #+#    #+#              #
-#    Updated: 2017/09/14 14:48:17 by mbriffau         ###   ########.fr        #
+#    Updated: 2017/09/23 17:51:55 by mbriffau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ FT_FILES =		ft_putchar \
 				ft_strstr \
 				ft_strnstr \
 				ft_strchr \
+				ft_strnchr \
 				ft_strrchr \
 				ft_isalpha \
 				ft_isdigit \
