@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 15:41:18 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/24 23:40:23 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/25 22:45:38 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,14 @@ t_printf		*buffer(t_printf *pf, char *saved, int len)
 	int			i;
 
 	i = 0;
-	if ((pf->i_buf + len) >= BUFFER_SIZE)
-	{
-		pf->add_buffer += pf->i_buf;
-		print_buffer(pf->buffer, pf->i_buf);
-		pf->i_buf = 0;
-	}
 	while (saved && (len - i) && (pf->i_buf < BUFFER_SIZE))
 	{
+		if (pf->i_buf == (BUFFER_SIZE - 1))
+		{
+			pf->add_buffer += pf->i_buf;
+			print_buffer(pf->buffer, pf->i_buf);
+			pf->i_buf = 0;
+		}
 		pf->buffer[pf->i_buf] = saved[i];
 		pf->i_buf++;
 		i++;
