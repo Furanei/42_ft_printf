@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 15:49:25 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/24 18:19:14 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/25 23:35:15 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,26 @@ static t_conv		*parse_precision(t_printf *pf, t_conv *conv)
 	return (conv);
 }
 
+static int			overwrite_modifier(int *f)
+{
+	if (*f & 0x7E0)
+	{
+		if (*f & MODIFIER_H)
+			*f -= MODIFIER_H;
+		else if (*f & MODIFIER_HH)
+			*f -= MODIFIER_HH;
+		else if (*f & MODIFIER_L)
+			*f -= MODIFIER_L;
+		else if (*f & MODIFIER_LL)
+			*f -= MODIFIER_LL;
+		else if (*f & MODIFIER_J)
+			*f -= MODIFIER_J;
+		else if (*f & MODIFIER_Z)
+			*f -= MODIFIER_Z;
+	}
+	return (*f);
+}
+
 static t_conv		*parse_modifier(t_printf *pf, t_conv *conv, char *s)
 {
 	if (ft_strchr("CSDUO", s[pf->i]))
@@ -51,12 +71,13 @@ static t_conv		*parse_modifier(t_printf *pf, t_conv *conv, char *s)
 		!(conv->flag & MODIFIER_F) ? (conv->flag += MODIFIER_F) && pf->i++ : 0;
 	else if (ft_strchr("hljz", s[pf->i]))
 	{
+		overwrite_modifier(&conv->flag);
 		if (s[pf->i] == 'h')
 		{
 			(s[pf->i + 1] == 'h') ? (conv->flag += MODIFIER_HH)
 			&& (pf->i++) : (conv->flag += MODIFIER_H);
 		}
-		if (s[pf->i] == 'l')
+		else if (s[pf->i] == 'l')
 		{
 			(s[pf->i + 1] == 'l') ? (conv->flag += MODIFIER_LL)
 			&& (pf->i++) : (conv->flag += MODIFIER_L);
