@@ -6,7 +6,7 @@
 #    By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/08/10 16:46:50 by achambon          #+#    #+#              #
-#    Updated: 2017/09/24 04:18:14 by mbriffau         ###   ########.fr        #
+#    Updated: 2017/09/25 00:11:34 by mbriffau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SOURCES =	ft_printf.c \
 			color.c \
 			option.c \
 			conv_c.c \
+			pf_string.c \
 			conv_d.c \
 			conv_d2.c \
 			conv_d3.c \
@@ -48,6 +49,7 @@ SOURCES =	ft_printf.c \
 			conv_o2.c \
 			conv_o3.c \
 			conv_o4.c \
+			conv_file.c \
 			conv_p.c \
 			conv_s.c \
 			conv_u.c \

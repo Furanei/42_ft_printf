@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 18:34:23 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/24 18:27:25 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/25 00:11:09 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,19 @@ t_printf	*conversion_specifier(t_printf *pf, t_conv *conv);
 **conv_c
 */
 void		conv_c(t_printf *pf, t_conv *conv);
+t_conv		*option_char(t_printf *pf, int print_size, char c, t_conv *conv);
 
 /*
 **conv_s
 */
 void		conv_s(t_printf *pf, t_conv *conv);
+void		conv_s_file(t_printf *pf);
 
 int	option(t_printf *pf, int c, size_t n);
 /*
 **conv_d
 */
-void			conv_d(t_printf *pf, t_conv *conv);
+void		conv_d(t_printf *pf, t_conv *conv);
 
 /*
 **conv_x

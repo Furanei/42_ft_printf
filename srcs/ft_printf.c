@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 15:41:18 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/24 18:41:21 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/24 23:40:23 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,12 @@ int				ft_printf(char *format, ...)
 	while (pf.format[pf.i])
 	{
 		if (pf.format[pf.i] == '{')
-		{
 			while (pf.format[pf.i] == '{')
 				parsing_color(&pf);
-		}
-
 		if (pf.format[pf.i] == '%')
 		{
 			pf.i++;
-			if (pf.format)
-				parse_conversion(&pf);
+			pf.format ? parse_conversion(&pf) : 0;
 		}
 		else if (pf.format[pf.i])
 			print_until(&pf, pf.format, pf.i, '%');

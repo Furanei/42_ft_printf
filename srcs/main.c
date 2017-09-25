@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/14 20:13:45 by achambon          #+#    #+#             */
-/*   Updated: 2017/09/24 18:41:13 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/25 01:37:33 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,10 @@ int		main(int ac, char **av)
 
 	if (!ft_strcmp(av[1], "t")){
 		// printf("%s\n", av[1]);
-		// printf("%d\n" ,ft_printf("{red}red{bold}%s{underline}vert {!underline}yellow{eof}haha\n", " blue "));
-		// ft_printf("{red}red{blue}%s{green}vert {!yellow}yellow{eoc}haha\n", " blue ");
-		// ft_printf("{bold}{underline}{blue}FR{white}%s{red}CE{eof}\n", "AN");
-		// ft_printf("{bold}{underline}{!blue}{white}FR%s{!red}CE{eoc}{eof}\n", "AN");
-		ft_printf("%Fs\n", av[3]);
+		printf("%d\n" ,ft_printf("{red}red{bold}%s{underline}vert {!underline}yellow{eof}haha\n", " blue "));
+		ft_printf("{red}red{blue}%s{green}vert {!yellow}yellow{eoc}haha\n", " blue ");
+		ft_printf("{bold}{underline}{blue}FR{white}%s{red}CE{eof}\n", "AN");
+		ft_printf("{bold}{underline}{!blue}{white}FR%s{!red}CE{eoc}{eof}\n", "AN");
 		// ft_printf("%+10b\n", 85);
 		// ft_printf("%010b\n", 85);
 		// ft_printf("%-10b\n", 85);
@@ -37,7 +36,8 @@ int		main(int ac, char **av)
 		// ft_printf("%10.d\n", 85);
 		// printf("%10.d\n", 85);
 	}
-
+	else if (!ft_strcmp(av[1], "F")){
+		ft_printf("{red}%Fs\n", av[2]);}
 // ft_printf("Hello%s\n", " world!");
 //-------------TEST_S-----------------
 	else if (!ft_strcmp(av[1], "s")){
