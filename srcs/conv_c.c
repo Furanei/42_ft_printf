@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 15:10:00 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/25 00:57:05 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/25 21:09:05 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ static int		count_wint(wint_t c)
 
 static void		conv_c_wint(t_printf *pf, t_conv *conv)
 {
-	char	c;
+	wint_t	c;
 	int		len;
 
 	if (MB_CUR_MAX == 1)
-		return ;
+		exit (-1);
 	c = va_arg(pf->ap, wint_t);
 	len = count_wint(c);
 	conv->min_width > len && conv->flag & ZERO && !(conv->flag & MINUS)
@@ -43,14 +43,13 @@ static void		conv_c_wint(t_printf *pf, t_conv *conv)
 	print_wint(&*pf, c);
 	(conv->min_width > len && conv->flag & MINUS)
 	? option_char(&*pf, len, ' ', &*conv) : 0;
-	printf("%lc\n", c);
 }
 
 void			conv_c(t_printf *pf, t_conv *conv)
 {
 	char	c;
 
-	if (conv->flag & MODIFIER_L && MB_CUR_MAX > 1)
+	if (conv->flag & MODIFIER_L)
 		conv_c_wint(&*pf, &*conv);
 	else
 	{
