@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 15:49:25 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/25 23:44:00 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/26 00:10:13 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,36 +61,28 @@ static int			overwrite_modifier(int *f)
 	return (*f);
 }
 
-static t_conv		*parse_modifier(t_printf *pf, t_conv *conv, char *s)
+static void		parse_modifier(int *i, int *f, char *s)
 {
-	
-	if (ft_strchr("X", s[pf->i]))
-		!(conv->flag & MODIFIER_X) ? (conv->flag += MODIFIER_X) : 0;
-	else if (ft_strchr("F", s[pf->i]))
-		!(conv->flag & MODIFIER_F) ? (conv->flag += MODIFIER_F) && pf->i++ : 0;
-	while (ft_strchr("hljzCSDUO", s[pf->i]))
+	if (ft_strchr("X", s[*i]))
+		!(*f & MODIFIER_X) ? (*f += MODIFIER_X) : 0;
+	else if (ft_strchr("F", s[*i]))
+		!(*f & MODIFIER_F) ? (*f += MODIFIER_F) && *i++ : 0;
+	while (ft_strchr("hljzCSDUO", s[*i]))
 	{
-		overwrite_modifier(&conv->flag);
-		if (ft_strchr("CSDUO", s[pf->i]))
+		overwrite_modifier(&*f);
+		if (ft_strchr("CSDUO", s[*i]))
 		{
-			conv->flag += MODIFIER_L;
+			*f += MODIFIER_L;
 			break;
 		}
-		else if (s[pf->i] == 'h')
-		{
-			(s[pf->i + 1] == 'h') ? (conv->flag += MODIFIER_HH)
-			&& (pf->i++) : (conv->flag += MODIFIER_H);
-		}
-		else if (s[pf->i] == 'l')
-		{
-			(s[pf->i + 1] == 'l') ? (conv->flag += MODIFIER_LL)
-			&& (pf->i++) : (conv->flag += MODIFIER_L);
-		}
-		(s[pf->i] == 'j') ? (conv->flag += MODIFIER_J) : 0;
-		(s[pf->i] == 'z') ? (conv->flag += MODIFIER_Z) : 0;
-		pf->i++;
+		(s[*i] == 'h') && (s[*i + 1] != 'h') ? (*f += MODIFIER_H) : 0;
+		(s[*i] == 'h') && (s[*i + 1] == 'h') ? (*f += MODIFIER_HH) && (*i++) : 0;
+		(s[*i] == 'l') && (s[*i + 1] != 'l') ? (*f += MODIFIER_L) : 0;
+		(s[*i] == 'l') && (s[*i + 1] == 'l') ? (*f += MODIFIER_LL) && (*i++) : 0;
+		(s[*i] == 'j') ? (*f += MODIFIER_J) : 0;
+		(s[*i] == 'z') ? (*f += MODIFIER_Z) : 0;
+		*i += 1;
 	}
-	return (conv);
 }
 
 static int			parse_type(char c)
@@ -122,7 +114,7 @@ t_printf			*parse_conversion(t_printf *pf)
 	if (!(pf->format))
 		ft_error_pf(INFO, "error_parse_minimal_width");
 	(pf->format[pf->i] == '.' ? parse_precision(&*pf, &*conv) : 0);
-	conv = parse_modifier(&*pf, conv, pf->format);
+	parse_modifier(&pf->i, &conv->flag, pf->format);
 	(!pf->format[pf->i]) ? ft_error_pf(INFO, "error_format_type") : 0;
 	conv->flag += parse_type(pf->format[pf->i]);
 	conversion_specifier(&*pf, &*conv);
