@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 15:49:25 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/25 23:35:15 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/25 23:44:00 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,20 @@ static int			overwrite_modifier(int *f)
 
 static t_conv		*parse_modifier(t_printf *pf, t_conv *conv, char *s)
 {
-	if (ft_strchr("CSDUO", s[pf->i]))
-		conv->flag += MODIFIER_L;
-	else if (ft_strchr("X", s[pf->i]))
+	
+	if (ft_strchr("X", s[pf->i]))
 		!(conv->flag & MODIFIER_X) ? (conv->flag += MODIFIER_X) : 0;
 	else if (ft_strchr("F", s[pf->i]))
 		!(conv->flag & MODIFIER_F) ? (conv->flag += MODIFIER_F) && pf->i++ : 0;
-	else if (ft_strchr("hljz", s[pf->i]))
+	while (ft_strchr("hljzCSDUO", s[pf->i]))
 	{
 		overwrite_modifier(&conv->flag);
-		if (s[pf->i] == 'h')
+		if (ft_strchr("CSDUO", s[pf->i]))
+		{
+			conv->flag += MODIFIER_L;
+			break;
+		}
+		else if (s[pf->i] == 'h')
 		{
 			(s[pf->i + 1] == 'h') ? (conv->flag += MODIFIER_HH)
 			&& (pf->i++) : (conv->flag += MODIFIER_H);
