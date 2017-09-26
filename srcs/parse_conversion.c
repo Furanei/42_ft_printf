@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/27 15:49:25 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/26 00:10:13 by mbriffau         ###   ########.fr       */
+/*   Updated: 2017/09/26 16:45:45 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,12 @@ static void		parse_modifier(int *i, int *f, char *s)
 			*f += MODIFIER_L;
 			break;
 		}
-		(s[*i] == 'h') && (s[*i + 1] != 'h') ? (*f += MODIFIER_H) : 0;
-		(s[*i] == 'h') && (s[*i + 1] == 'h') ? (*f += MODIFIER_HH) && (*i++) : 0;
-		(s[*i] == 'l') && (s[*i + 1] != 'l') ? (*f += MODIFIER_L) : 0;
-		(s[*i] == 'l') && (s[*i + 1] == 'l') ? (*f += MODIFIER_LL) && (*i++) : 0;
+		if (s[*i] == 'h')
+			(s[*i + 1] == 'h') ? (*f += MODIFIER_HH) && (*i += 1) 
+		: (*f += MODIFIER_HH);
+		else if (s[*i] == 'l')
+			(s[*i + 1] == 'l') ? (*f += MODIFIER_LL) && (*i += 1)
+		: (*f += MODIFIER_L);
 		(s[*i] == 'j') ? (*f += MODIFIER_J) : 0;
 		(s[*i] == 'z') ? (*f += MODIFIER_Z) : 0;
 		*i += 1;
