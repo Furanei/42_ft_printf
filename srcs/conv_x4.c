@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/28 23:41:51 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/28 23:45:42 by mbriffau         ###   ########.fr       */
+/*   Updated: 2018/01/22 05:17:49 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static t_conv		option_x3(t_printf *pf, char *tab,
 	}
 	(((conv->flag & PLUS) && !(conv->flag & ZERO) && !(conv->flag & MINUS)
 	&& (conv->flag & (TYPE_D + TYPE_U + TYPE_O)) && !(conv->before == 3)
-	&& !conv->flag & MODIFIER_HH)) ? buffer(&*pf, "+", 1) : 0;
+	&& !(conv->flag & MODIFIER_HH))) ? buffer(&*pf, "+", 1) : 0;
 	return (*conv);
 }
 

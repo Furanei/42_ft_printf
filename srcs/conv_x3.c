@@ -6,7 +6,7 @@
 /*   By: mbriffau <mbriffau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/28 23:41:51 by mbriffau          #+#    #+#             */
-/*   Updated: 2017/09/28 23:45:39 by mbriffau         ###   ########.fr       */
+/*   Updated: 2018/01/22 05:16:25 by mbriffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ static int		conv_x_minus_width_sup_len(t_printf *pf, t_conv *conv, int len)
 			return (0);
 		}
 		(conv->flag & PLUS && !(conv->flag & ZERO)) ? conv->min_width-- : 0;
-		if ((conv->flag & PLUS && conv->flag & ZERO &&
-					!conv->flag & MODIFIER_HH) || (conv->flag & ZERO))
+		if ((conv->flag & PLUS && conv->flag & ZERO && !(conv->flag & MODIFIER_HH)) || (conv->flag & ZERO))
 		{
 			conv->before = 1;
 			option_x(&*pf, conv->min_width - len, ' ', conv);
